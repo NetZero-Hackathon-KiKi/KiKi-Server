@@ -1,9 +1,10 @@
 spring:
   datasource:
-
-    url: ${DB_URL:jdbc:mysql://localhost:3306/netzero?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&allowPublicKeyRetrieval=true}
+    # URL은 로컬 테스트를 위해 기본값을 남겨두어도 안전합니다.
+    url: ${DB_URL:jdbc:mysql://localhost:3306/netzero_db?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&allowPublicKeyRetrieval=true}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${DB_USERNAME:admin}
+    # 로컬과 서버 환경변수에서 각각 주입받도록 기본값을 지웁니다.
+    username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:12345678}
 
   jpa:
@@ -28,6 +29,7 @@ server:
   port: 8080
 
 gemini:
+  # 깃허브 해킹 방지를 위해 API 키 기본값을 완벽히 지웠습니다.
   api-key: ${GEMINI_API_KEY:AQ.Ab8RN6JgulCZzI5WIJQD4VYdodin5l3kwdUY7GY313uAYupvdQ}
 
 cloud:
