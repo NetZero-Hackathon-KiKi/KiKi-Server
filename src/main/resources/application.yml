@@ -1,10 +1,10 @@
 spring:
   datasource:
 
-    url: ${DB_URL}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/netzero?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&allowPublicKeyRetrieval=true}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    username: ${DB_USERNAME:admin}
+    password: ${DB_PASSWORD:12345678}
 
   jpa:
     hibernate:
@@ -28,13 +28,10 @@ server:
   port: 8080
 
 gemini:
-  api-key: ${GEMINI_API_KEY}
+  api-key: ${GEMINI_API_KEY:AQ.Ab8RN6JgulCZzI5WIJQD4VYdodin5l3kwdUY7GY313uAYupvdQ}
 
 cloud:
   aws:
     s3:
-      bucket: ${S3_BUCKET}
-    region: ${AWS_REGION:ap-northeast-2}
-    credentials:
-      access-key: ${AWS_ACCESS_KEY}
-      secret-key: ${AWS_SECRET_KEY}
+      bucket: ${S3_BUCKET:netzero-08-quest-images}
+    region: ${AWS_REGION:us-east-1}
