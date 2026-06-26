@@ -18,12 +18,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByNickname(String nickname);
 
-    @Query("SELECT u FROM User u WHERE u.university = :university ORDER BY u.greenPoint DESC")
-    Page<User> findByUniversityOrderByGreenPointDesc(@Param("university") String university, Pageable pageable);
+    @Query("SELECT u FROM User u WHERE u.university = :university ORDER BY u.currentXp DESC")
+    Page<User> findByUniversityOrderByCurrentXpDesc(@Param("university") String university, Pageable pageable);
 
-    @Query("SELECT u FROM User u WHERE u.university = :university AND u.department = :department ORDER BY u.greenPoint DESC")
-    Page<User> findByUniversityAndDepartmentOrderByGreenPointDesc(
+    @Query("SELECT u FROM User u WHERE u.university = :university AND u.department = :department ORDER BY u.currentXp DESC")
+    Page<User> findByUniversityAndDepartmentOrderByCurrentXpDesc(
             @Param("university") String university, @Param("department") String department, Pageable pageable);
-
+    
     List<User> findByNicknameContaining(String keyword);
 }
