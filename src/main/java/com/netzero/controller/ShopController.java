@@ -19,7 +19,7 @@ public class ShopController {
 
     @Operation(summary = "상점 아이템 목록 조회", description = "구매 가능한 상점 아이템 목록을 조회합니다.")
     @GetMapping("/items")
-    public ApiResponse<?> getItems() {
+    public ApiResponse<?> getItems(@Parameter(description = "유저 ID") @RequestParam Long userId) {
         return ApiResponse.ok(shopService.getAllItems());
     }
 

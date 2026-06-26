@@ -35,8 +35,8 @@ public class QuestService {
         // S3 업로드
         String imageUrl = s3Service.upload(image);
 
-        // Gemini AI 검증
-        boolean verified = geminiService.verifyQuestImage(imageUrl, quest.getDescription());
+        // Gemini AI 검증 (원본 이미지 바이트를 전달)
+        boolean verified = geminiService.verifyQuestImage(image.getBytes(), image.getContentType(), quest.getDescription());
 
         String status = verified ? "SUCCESS" : "FAILED";
 

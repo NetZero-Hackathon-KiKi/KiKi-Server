@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,9 @@ public class GeminiService {
                 .build();
     }
 
-    public boolean verifyQuestImage(String imageUrl, String questDescription) {
+    public boolean verifyQuestImage(byte[] imageBytes, String mimeType, String questDescription) {
+        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
         String prompt = "이 이미지가 다음 미션을 수행한 증거 사진인지 판단해줘. " +
                 "미션: \"" + questDescription + "\". " +
                 "미션과 일치하면 true, 아니면 false만 답해줘.";
@@ -31,8 +34,8 @@ public class GeminiService {
                         "parts", List.of(
                                 Map.of("text", prompt),
                                 Map.of("inline_data", Map.of(
-                                        "mime_type", "image/jpeg",
-                                        "data", imageUrl
+                                        "mime_type", mimeType != null ? mimeType : "image/jpeg",
+                                        "data", base64Image
                                 ))
                         )
                 ))

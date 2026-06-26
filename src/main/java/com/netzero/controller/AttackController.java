@@ -25,7 +25,7 @@ public class AttackController {
 
     @Operation(summary = "공격 미션 목록 조회", description = "공격 시 부여할 수 있는 미션(퀘스트) 목록을 조회합니다.")
     @GetMapping("/missions")
-    public ApiResponse<?> getMissions() {
+    public ApiResponse<?> getMissions(@Parameter(description = "유저 ID") @RequestParam Long userId) {
         return ApiResponse.ok(attackService.getMissions());
     }
 
