@@ -1,13 +1,13 @@
 -- ============================================================
--- NetZero 더미 데이터 (홈 화면 와이어프레임 기준)
+-- NetZero 더미 데이터
 -- 기존 유저: id=1, 주니 (jj@naver.com)
 -- ============================================================
 
--- ── 1. 그룹 ──
+-- ── 1. 그룹 (리더 없이) ──
 INSERT INTO `groups` (id, name, description, leader_id, created_at) VALUES
-(1, '우리 과 탄소챌린지', '컴퓨터공학과 탄소중립 챌린지 그룹', NULL, NOW());
+(1, '환경 지킴이', '친구들과 함께하는 탄소중립 챌린지', NULL, NOW());
 
--- ── 2. 주니(id=1) 스탯을 와이어프레임에 맞게 업데이트 ──
+-- ── 2. 주니(id=1) 스탯 업데이트 ──
 UPDATE users SET
     level = 12,
     current_xp = 680,
@@ -15,9 +15,6 @@ UPDATE users SET
     green_point = 1250,
     group_id = 1
 WHERE id = 1;
-
--- 그룹 리더를 주니로 설정
-UPDATE `groups` SET leader_id = 1 WHERE id = 1;
 
 -- ── 3. 친구 유저 12명 ──
 INSERT INTO users (id, email, password, nickname, university, department, level, current_xp, max_xp, green_point, group_id, created_at) VALUES
@@ -34,7 +31,7 @@ INSERT INTO users (id, email, password, nickname, university, department, level,
 (12, 'jminsu@inha.ac.kr',   '$2a$10$cHehd2pAY8k5HiLydm37cuyzpWtFOfxeVOnOcGKDK2r/RqDusdVvy', '정민수', '인하대학교', '전기공학과',     9, 250, 1100, 1480, 1, NOW()),
 (13, 'jia@inha.ac.kr',      '$2a$10$cHehd2pAY8k5HiLydm37cuyzpWtFOfxeVOnOcGKDK2r/RqDusdVvy', '한지아', '인하대학교', '신소재공학과',   9, 180, 1100, 1350, 1, NOW());
 
--- ── 4. 친구 관계 (주니 ↔ 12명 = 친구 12) ──
+-- ── 4. 친구 관계 ──
 INSERT INTO friendships (requester_id, receiver_id, status, created_at) VALUES
 (1,  2, 'ACCEPTED', NOW()),
 (1,  3, 'ACCEPTED', NOW()),
@@ -49,38 +46,56 @@ INSERT INTO friendships (requester_id, receiver_id, status, created_at) VALUES
 (1, 12, 'ACCEPTED', NOW()),
 (1, 13, 'ACCEPTED', NOW());
 
--- ── 5. 퀘스트 ──
+-- ── 5. 퀘스트 20개 ──
 INSERT INTO quests (id, title, description, type, reward_gp, reward_xp, verification_method, location) VALUES
-(1, '텀블러 사용 인증',           '텀블러를 사용하여 음료를 마시는 사진을 인증하세요.',   'DAILY',  20, 15, 'PHOTO', NULL),
-(2, '분리수거 인증',             '분리수거를 올바르게 하는 사진을 인증하세요.',           'DAILY',  20, 15, 'PHOTO', NULL),
-(3, '계단 이용 인증',            '엘리베이터 대신 계단을 이용하는 사진을 인증하세요.',   'DAILY',  20, 15, 'PHOTO', NULL),
-(4, '하텍에서 텀블러로 음료 구매', '하텍 카페에서 텀블러로 음료를 구매하세요.',            'CAMPUS', 50, 30, 'PHOTO', '하텍'),
-(5, '학생식당 다회용기 사용',     '학생식당에서 다회용기를 사용하세요.',                    'CAMPUS', 50, 30, 'PHOTO', '학생식당'),
-(6, '도서관 빈 자리 조명 끄기',   '도서관에서 빈 자리의 조명을 끄세요.',                   'CAMPUS', 50, 30, 'PHOTO', '도서관');
+-- 캠퍼스 퀘스트 10개
+(1,  '텀블러 사용',          '텀블러를 사용하여 음료를 마시는 사진을 인증하세요.',            'CAMPUS', 30,  30, 'PHOTO', NULL),
+(2,  '대중교통 이용',        '대중교통을 이용하는 사진을 인증하세요.',                        'CAMPUS', 80,  80, 'PHOTO', NULL),
+(3,  '자전거 이용',          '자전거를 이용하는 사진을 인증하세요.',                          'CAMPUS', 50,  50, 'PHOTO', NULL),
+(4,  '이면지 활용',          '이면지를 활용하는 사진을 인증하세요.',                          'CAMPUS', 30,  30, 'PHOTO', NULL),
+(5,  '학식 다먹기',          '학생식당에서 음식을 남기지 않은 식판 사진을 인증하세요.',       'CAMPUS', 30,  30, 'PHOTO', '학생식당'),
+(6,  '개인 손수건 사용',     '일회용 휴지 대신 손수건을 사용하는 사진을 인증하세요.',         'CAMPUS', 30,  30, 'PHOTO', NULL),
+(7,  '컴퓨터 절전기능 사용', '컴퓨터 절전 모드를 설정한 화면을 인증하세요.',                 'CAMPUS', 50,  50, 'PHOTO', NULL),
+(8,  '양치할 때 컵쓰기',     '양치 시 컵을 사용하는 사진을 인증하세요.',                     'CAMPUS', 30,  30, 'PHOTO', NULL),
+(9,  '메일함 비우기',        '이메일 메일함을 비운 화면 캡처를 인증하세요.',                 'CAMPUS', 30,  30, 'PHOTO', NULL),
+(10, '빈 강의실 불끄기',     '빈 강의실의 불을 끄는 사진을 인증하세요.',                     'CAMPUS', 50,  50, 'PHOTO', '강의실'),
+-- 일일 퀘스트 10개
+(11, '다회용기로 음식 포장',  '다회용기를 이용하여 음식을 포장하는 사진을 인증하세요.',      'DAILY', 20, 20, 'PHOTO', NULL),
+(12, '분리수거',              '분리수거를 올바르게 하는 사진을 인증하세요.',                  'DAILY', 30, 30, 'PHOTO', NULL),
+(13, '리필 제품 구매',        '리필 제품을 구매하는 사진을 인증하세요.',                      'DAILY', 30, 30, 'PHOTO', NULL),
+(14, '안쓰는 멀티탭 뽑기',   '사용하지 않는 멀티탭을 뽑은 사진을 인증하세요.',              'DAILY', 30, 30, 'PHOTO', NULL),
+(15, '친환경 인증 식품 구매', '친환경 인증 마크가 있는 식품을 구매하는 사진을 인증하세요.',  'DAILY', 20, 20, 'PHOTO', NULL),
+(16, '냉난방기 온도 조절',    '여름 26도 이상, 겨울 20도 이하로 설정한 화면을 인증하세요.',  'DAILY', 30, 30, 'PHOTO', NULL),
+(17, '장바구니 이용',         '비닐봉지 대신 장바구니를 사용하는 사진을 인증하세요.',         'DAILY', 20, 20, 'PHOTO', NULL),
+(18, '저탄소 식단',           '채소 위주의 저탄소 식단을 먹는 사진을 인증하세요.',            'DAILY', 30, 30, 'PHOTO', NULL),
+(19, '음식물 남기지 않기',    '음식을 남기지 않은 빈 그릇 사진을 인증하세요.',               'DAILY', 20, 20, 'PHOTO', NULL),
+(20, '계단 이용',             '엘리베이터 대신 계단을 이용하는 사진을 인증하세요.',           'DAILY', 20, 20, 'PHOTO', NULL);
 
--- ── 6. 공격 미션: 철수(2) → 주니(1), "하텍에서 텀블러로 음료 구매하기" ──
+-- ── 6. 공격 미션: 철수(2) → 주니(1) ──
 INSERT INTO attacks (id, attacker_id, defender_id, mission_quest_id, status, gp_at_stake, group_verification_count, required_group_verification, deadline, created_at) VALUES
-(1, 2, 1, 4, 'PENDING', 50, 0, 2, DATE_ADD(NOW(), INTERVAL 13 HOUR), NOW());
+(1, 2, 1, 1, 'PENDING', 50, 0, 2, DATE_ADD(NOW(), INTERVAL 13 HOUR), NOW());
 
--- ── 7. 알림 3개 (읽지 않음, 홈 화면 알림 배지 3) ──
+-- ── 7. 알림 3개 ──
 INSERT INTO notifications (user_id, title, message, type, is_read, created_at) VALUES
 (1, '공격 미션 도착!',   '철수가 당신에게 미션을 보냈어요!',       'ATTACK', 0, NOW()),
 (1, '오늘의 퀘스트',     '오늘의 일일 퀘스트가 초기화되었습니다.', 'QUEST',  0, DATE_SUB(NOW(), INTERVAL 1 HOUR)),
-(1, '친구 요청',         '권도윤님이 친구 요청을 보냈습니다.',     'FRIEND', 0, DATE_SUB(NOW(), INTERVAL 2 HOUR));
+(1, '친구 요청',         '권도윤님이 친구 요청을 보냈습니다.',      'FRIEND', 0, DATE_SUB(NOW(), INTERVAL 2 HOUR));
 
 -- ── 8. 상점 아이템 ──
 INSERT INTO shop_items (id, name, description, category, price) VALUES
-(1, '불캡',          '멋진 불캡 모자',             'HAT',        300),
-(2, '버킷햇',       '트렌디한 버킷햇',           'HAT',        300),
-(3, '안경',          '스타일리시한 안경',         'ACCESSORY',  250),
-(4, '후드티',       '따뜻한 후드티',             'CLOTHES',    500),
-(5, '백팩',          '실용적인 백팩',             'ACCESSORY',  400),
-(6, '스니커즈',     '편안한 스니커즈',           'CLOTHES',    400),
-(7, '나무 친구',     '귀여운 나무 친구 악세서리', 'ACCESSORY',  350),
-(8, '지구 풍선',     '지구 모양 풍선',            'ACCESSORY',  350),
-(9, '배경 - 캠퍼스', '캠퍼스 배경',               'BACKGROUND', 300);
+(1,  '새싹 모자',       '귀여운 새싹 모양 모자',       'HAT',       300),
+(2,  '그린 모자',       '시원한 그린 컬러 모자',       'HAT',       300),
+(3,  '하늘 모자',       '청량한 하늘색 모자',          'HAT',       300),
+(4,  '브라운 모자',     '따뜻한 브라운 모자',          'HAT',       300),
+(5,  '하늘 후드티',     '청량한 하늘색 후드티',        'CLOTHES',   500),
+(6,  '그린 후드티',     '싱그러운 그린 후드티',        'CLOTHES',   500),
+(7,  '아이보리 후드티', '깔끔한 아이보리 후드티',      'CLOTHES',   500),
+(8,  '텀블러',          '친환경 텀블러 악세서리',      'ACCESSORY', 350),
+(9,  '검은 가방',       '시크한 블랙 가방',            'ACCESSORY', 350),
+(10, '브라운 가방',     '따뜻한 브라운 가방',          'ACCESSORY', 350);
 
--- ── 9. 타임라인 게시글 (그룹 랭킹 화면용) ──
+-- ── 9. 타임라인 게시글 3개 ──
 INSERT INTO timeline_posts (id, user_id, group_id, content, verification_type, verification_info, like_count, comment_count, created_at) VALUES
-(1, 2, 1, '하텍에서 텀블러로 음료 구매',  'QUEST', '인증 1/2', 12, 3, DATE_SUB(NOW(), INTERVAL 1 HOUR)),
-(2, 3, 1, '학생식당 다회용기 사용 완료!', 'QUEST', '인증 2/2',  8, 2, DATE_SUB(NOW(), INTERVAL 3 HOUR));
+(1, 2, 1, '오늘 텀블러 챙겨서 카페 다녀왔어요 ☕',  'QUEST', NULL, 12, 3, DATE_SUB(NOW(), INTERVAL 1 HOUR)),
+(2, 3, 1, '학식에서 밥 싹 다 먹었다 🍚 잔반 제로!', 'QUEST', NULL,  8, 2, DATE_SUB(NOW(), INTERVAL 3 HOUR)),
+(3, 4, 1, '오늘은 계단으로 5층까지 올라갔습니다 💪', 'QUEST', NULL,  5, 1, DATE_SUB(NOW(), INTERVAL 5 HOUR));
