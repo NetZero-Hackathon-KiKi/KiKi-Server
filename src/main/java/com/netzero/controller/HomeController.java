@@ -7,6 +7,9 @@ import com.netzero.entity.User;
 import com.netzero.repository.UserRepository;
 import com.netzero.service.AttackService;
 import com.netzero.service.QuestService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "Home", description = "홈 화면 API")
 @RestController
 @RequestMapping("/api/home")
 @RequiredArgsConstructor
@@ -25,8 +29,9 @@ public class HomeController {
     private final AttackService attackService;
     private final QuestService questService;
 
+    @Operation(summary = "홈 화면 조회", description = "유저 프로필, 현재 공격 미션, 일일 퀘스트를 포함한 홈 화면 데이터를 조회합니다.")
     @GetMapping
-    public ApiResponse<?> getHome(@RequestParam Long userId) {
+    public ApiResponse<?> getHome(@Parameter(description = "유저 ID") @RequestParam Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
 
         Map<String, Object> profile = Map.of(

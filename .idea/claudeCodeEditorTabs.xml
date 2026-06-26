@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ClaudeCodeEditorTabs">
-    <option name="activeSessionId" value="a4ea514e-a298-4b5a-9f1b-44fa6baca0fc" />
+    <option name="activeSessionId" value="76b94a92-3e5d-456d-8d56-234842a8f657" />
     <option name="openSessionIds">
       <list>
         <option value="0c0ce23c-d92f-4076-8b7b-a7c86e48774f" />
         <option value="9c4106ba-4a9b-4f8c-8c88-0c97bf0f8287" />
         <option value="c3fcd5db-9908-4360-af04-a90b6c62f1de" />
         <option value="fb46c5dd-8c38-4dbe-bc8e-ee8fbd21cec2" />
-        <option value="a4ea514e-a298-4b5a-9f1b-44fa6baca0fc" />
+        <option value="96bb4af7-4df0-45bf-a139-1b4431dac0a3" />
+        <option value="76b94a92-3e5d-456d-8d56-234842a8f657" />
       </list>
     </option>
     <option name="sessionPaths">
       <map>
         <entry key="0c0ce23c-d92f-4076-8b7b-a7c86e48774f" value="/sessions/da83b784-5db2-4772-bfbd-77bf69c6b512" />
+        <entry key="76b94a92-3e5d-456d-8d56-234842a8f657" value="/sessions/e5eaa4b7-d749-40bc-b9c7-9e6d6458e36b" />
+        <entry key="96bb4af7-4df0-45bf-a139-1b4431dac0a3" value="/sessions/e5eaa4b7-d749-40bc-b9c7-9e6d6458e36b" />
         <entry key="9c4106ba-4a9b-4f8c-8c88-0c97bf0f8287" value="/sessions/da83b784-5db2-4772-bfbd-77bf69c6b512" />
-        <entry key="a4ea514e-a298-4b5a-9f1b-44fa6baca0fc" value="/sessions/new" />
         <entry key="c3fcd5db-9908-4360-af04-a90b6c62f1de" value="/sessions/da83b784-5db2-4772-bfbd-77bf69c6b512" />
         <entry key="fb46c5dd-8c38-4dbe-bc8e-ee8fbd21cec2" value="/sessions/da83b784-5db2-4772-bfbd-77bf69c6b512" />
       </map>
@@ -23,8 +25,9 @@
     <option name="sessionTitles">
       <map>
         <entry key="0c0ce23c-d92f-4076-8b7b-a7c86e48774f" value="이 와이어프레임에 대해 필요한 api 만들어줘" />
+        <entry key="76b94a92-3e5d-456d-8d56-234842a8f657" value="지금 database-1에 데이터 넣으려고 하는데 안돼 왜 이런거야" />
+        <entry key="96bb4af7-4df0-45bf-a139-1b4431dac0a3" value="지금 database-1에 데이터 넣으려고 하는데 안돼 왜 이런거야" />
         <entry key="9c4106ba-4a9b-4f8c-8c88-0c97bf0f8287" value="이 와이어프레임에 대해 필요한 api 만들어줘" />
-        <entry key="a4ea514e-a298-4b5a-9f1b-44fa6baca0fc" value="Claude Code" />
         <entry key="c3fcd5db-9908-4360-af04-a90b6c62f1de" value="이 와이어프레임에 대해 필요한 api 만들어줘" />
         <entry key="fb46c5dd-8c38-4dbe-bc8e-ee8fbd21cec2" value="이 와이어프레임에 대해 필요한 api 만들어줘" />
       </map>
