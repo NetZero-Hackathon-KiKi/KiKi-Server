@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ClaudeCodeEditorTabs">
-    <option name="activeSessionId" value="78f108a8-519a-45b9-9a97-9645ea9faa43" />
+    <option name="activeSessionId" value="6ba95fdf-9b75-4e6c-bb05-5d0da7c61bd8" />
     <option name="openSessionIds">
       <list>
         <option value="0c0ce23c-d92f-4076-8b7b-a7c86e48774f" />
@@ -18,7 +18,7 @@
         <option value="981b1277-157f-4e43-8cc6-0c24995f3718" />
         <option value="39052475-2eea-4d68-b082-9558377054e6" />
         <option value="b7c1a134-4496-4e2c-a40a-c4fe07585781" />
-        <option value="78f108a8-519a-45b9-9a97-9645ea9faa43" />
+        <option value="6ba95fdf-9b75-4e6c-bb05-5d0da7c61bd8" />
       </list>
     </option>
     <option name="sessionPaths">
@@ -26,7 +26,7 @@
         <entry key="0c0ce23c-d92f-4076-8b7b-a7c86e48774f" value="/sessions/da83b784-5db2-4772-bfbd-77bf69c6b512" />
         <entry key="39052475-2eea-4d68-b082-9558377054e6" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
         <entry key="56ce0187-d5e0-4ed5-af5f-bb4a9fa3451f" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
-        <entry key="78f108a8-519a-45b9-9a97-9645ea9faa43" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
+        <entry key="6ba95fdf-9b75-4e6c-bb05-5d0da7c61bd8" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
         <entry key="96bb4af7-4df0-45bf-a139-1b4431dac0a3" value="/sessions/e5eaa4b7-d749-40bc-b9c7-9e6d6458e36b" />
         <entry key="981b1277-157f-4e43-8cc6-0c24995f3718" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
         <entry key="9b65973d-e88c-42f0-b295-7b9c32f5eb80" value="/sessions/e5eaa4b7-d749-40bc-b9c7-9e6d6458e36b" />
@@ -45,7 +45,7 @@
         <entry key="0c0ce23c-d92f-4076-8b7b-a7c86e48774f" value="이 와이어프레임에 대해 필요한 api 만들어줘" />
         <entry key="39052475-2eea-4d68-b082-9558377054e6" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />
         <entry key="56ce0187-d5e0-4ed5-af5f-bb4a9fa3451f" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />
-        <entry key="78f108a8-519a-45b9-9a97-9645ea9faa43" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />
+        <entry key="6ba95fdf-9b75-4e6c-bb05-5d0da7c61bd8" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />
         <entry key="96bb4af7-4df0-45bf-a139-1b4431dac0a3" value="지금 database-1에 데이터 넣으려고 하는데 안돼 왜 이런거야" />
         <entry key="981b1277-157f-4e43-8cc6-0c24995f3718" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />
         <entry key="9b65973d-e88c-42f0-b295-7b9c32f5eb80" value="지금 database-1에 데이터 넣으려고 하는데 안돼 왜 이런거야" />
