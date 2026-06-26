@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ClaudeCodeEditorTabs">
-    <option name="activeSessionId" value="75fc887d-0798-4863-800e-8a01688a32cc" />
+    <option name="activeSessionId" value="39052475-2eea-4d68-b082-9558377054e6" />
     <option name="openSessionIds">
       <list>
         <option value="0c0ce23c-d92f-4076-8b7b-a7c86e48774f" />
@@ -16,15 +16,15 @@
         <option value="b16082dd-30bd-4cd4-b0a2-741bc1456b6d" />
         <option value="a1f0172d-4022-4688-9655-534805ee8695" />
         <option value="981b1277-157f-4e43-8cc6-0c24995f3718" />
-        <option value="f9cb776a-96fd-4928-83be-0ab0485674e7" />
-        <option value="d7813f47-6067-4ab5-b50a-7977e9137061" />
         <option value="710b524b-aa39-43e7-98f2-4a4ed7d9bb9a" />
         <option value="75fc887d-0798-4863-800e-8a01688a32cc" />
+        <option value="39052475-2eea-4d68-b082-9558377054e6" />
       </list>
     </option>
     <option name="sessionPaths">
       <map>
         <entry key="0c0ce23c-d92f-4076-8b7b-a7c86e48774f" value="/sessions/da83b784-5db2-4772-bfbd-77bf69c6b512" />
+        <entry key="39052475-2eea-4d68-b082-9558377054e6" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
         <entry key="56ce0187-d5e0-4ed5-af5f-bb4a9fa3451f" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
         <entry key="710b524b-aa39-43e7-98f2-4a4ed7d9bb9a" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
         <entry key="75fc887d-0798-4863-800e-8a01688a32cc" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
@@ -37,14 +37,13 @@
         <entry key="bc63710f-e96e-4a03-9b4f-df17443f5877" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
         <entry key="c3fcd5db-9908-4360-af04-a90b6c62f1de" value="/sessions/da83b784-5db2-4772-bfbd-77bf69c6b512" />
         <entry key="c8184983-e437-4f4b-bb69-fb036e75f420" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
-        <entry key="d7813f47-6067-4ab5-b50a-7977e9137061" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
-        <entry key="f9cb776a-96fd-4928-83be-0ab0485674e7" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
         <entry key="fb46c5dd-8c38-4dbe-bc8e-ee8fbd21cec2" value="/sessions/da83b784-5db2-4772-bfbd-77bf69c6b512" />
       </map>
     </option>
     <option name="sessionTitles">
       <map>
         <entry key="0c0ce23c-d92f-4076-8b7b-a7c86e48774f" value="이 와이어프레임에 대해 필요한 api 만들어줘" />
+        <entry key="39052475-2eea-4d68-b082-9558377054e6" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />
         <entry key="56ce0187-d5e0-4ed5-af5f-bb4a9fa3451f" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />
         <entry key="710b524b-aa39-43e7-98f2-4a4ed7d9bb9a" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />
         <entry key="75fc887d-0798-4863-800e-8a01688a32cc" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />
@@ -57,8 +56,6 @@
         <entry key="bc63710f-e96e-4a03-9b4f-df17443f5877" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />
         <entry key="c3fcd5db-9908-4360-af04-a90b6c62f1de" value="이 와이어프레임에 대해 필요한 api 만들어줘" />
         <entry key="c8184983-e437-4f4b-bb69-fb036e75f420" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />
-        <entry key="d7813f47-6067-4ab5-b50a-7977e9137061" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />
-        <entry key="f9cb776a-96fd-4928-83be-0ab0485674e7" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />
         <entry key="fb46c5dd-8c38-4dbe-bc8e-ee8fbd21cec2" value="이 와이어프레임에 대해 필요한 api 만들어줘" />
       </map>
     </option>

@@ -1,5 +1,6 @@
 package com.netzero.service;
 
+import com.netzero.dto.response.QuestResponse;
 import com.netzero.entity.*;
 import com.netzero.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +27,27 @@ public class QuestService {
 
     public List<Quest> getQuestsByType(String type) {
         return questRepository.findByType(type);
+    }
+
+    public List<QuestResponse> getQuestsByTypeAndUser(Long userId, String type) {
+        List<Quest> quests = questRepository.findByType(type);
+
+        Set<Long> completedQuestIds = userQuestRepository.findByUserIdAndStatus(userId, "SUCCESS")
+                .stream()
+                .map(uq -> uq.getQuest().getId())
+                .collect(Collectors.toSet());
+
+        return quests.stream()
+                .map(q -> QuestResponse.builder()
+                        .id(q.getId())
+                        .title(q.getTitle())
+                        .description(q.getDescription())
+                        .type(q.getType())
+                        .rewardXp(q.getRewardXp())
+                        .rewardGp(q.getRewardGp())
+                        .completed(completedQuestIds.contains(q.getId()))
+                        .build())
+                .toList();
     }
 
     // 퀘스트 수행: 사진 업로드 → S3 저장 → Gemini 검증 → 성공 시 타임라인 게시 + 보상 지급
