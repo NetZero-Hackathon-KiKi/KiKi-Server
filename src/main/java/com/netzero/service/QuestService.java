@@ -1,6 +1,7 @@
 package com.netzero.service;
 
 import com.netzero.dto.response.QuestResponse;
+import com.netzero.dto.response.QuestVerifyResponse;
 import com.netzero.entity.*;
 import com.netzero.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -50,16 +51,13 @@ public class QuestService {
                 .toList();
     }
 
-    // 퀘스트 수행: 사진 업로드 → S3 저장 → Gemini 검증 → 성공 시 타임라인 게시 + 보상 지급
     @Transactional
-    public UserQuest verifyAndComplete(Long userId, Long questId, MultipartFile image) throws IOException {
+    public QuestVerifyResponse verifyAndComplete(Long userId, Long questId, MultipartFile image, String caption) throws IOException {
         User user = userRepository.findById(userId).orElseThrow();
         Quest quest = questRepository.findById(questId).orElseThrow();
 
-        // S3 업로드
         String imageUrl = s3Service.upload(image);
 
-        // Gemini AI 검증 (원본 이미지 바이트를 전달)
         boolean verified = geminiService.verifyQuestImage(image.getBytes(), image.getContentType(), quest.getDescription());
 
         String status = verified ? "SUCCESS" : "FAILED";
@@ -73,22 +71,42 @@ public class QuestService {
                 .build();
         userQuestRepository.save(userQuest);
 
+        QuestVerifyResponse.TimelinePostInfo timelinePostInfo = null;
+
         if (verified) {
-            // 보상 지급
             user.setXp(user.getXp() + quest.getRewardXp());
             user.setGp(user.getGp() + quest.getRewardGp());
             userRepository.save(user);
 
-            // 타임라인에 게시
             TimelinePost post = TimelinePost.builder()
                     .user(user)
                     .questTitle(quest.getTitle())
                     .imageUrl(imageUrl)
+                    .caption(caption)
                     .createdAt(LocalDateTime.now())
                     .build();
             timelinePostRepository.save(post);
+
+            timelinePostInfo = QuestVerifyResponse.TimelinePostInfo.builder()
+                    .postId(post.getId())
+                    .userId(user.getId())
+                    .nickname(user.getNickname())
+                    .profileImageUrl(user.getProfileImageUrl())
+                    .questTitle(quest.getTitle())
+                    .imageUrl(imageUrl)
+                    .caption(caption)
+                    .likeCount(0)
+                    .commentCount(0)
+                    .createdAt(post.getCreatedAt().toString())
+                    .build();
         }
 
-        return userQuest;
+        return QuestVerifyResponse.builder()
+                .verified(verified)
+                .status(status)
+                .rewardXp(verified ? quest.getRewardXp() : 0)
+                .rewardGp(verified ? quest.getRewardGp() : 0)
+                .timelinePost(timelinePostInfo)
+                .build();
     }
 }

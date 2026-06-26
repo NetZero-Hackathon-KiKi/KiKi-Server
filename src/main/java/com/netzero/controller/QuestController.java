@@ -28,9 +28,10 @@ public class QuestController {
     @PostMapping("/{questId}/verify")
     public ApiResponse<?> verifyQuest(@Parameter(description = "유저 ID") @RequestParam Long userId,
                                        @Parameter(description = "퀘스트 ID") @PathVariable Long questId,
-                                       @Parameter(description = "인증 사진") @RequestParam("image") MultipartFile image) {
+                                       @Parameter(description = "인증 사진") @RequestParam("image") MultipartFile image,
+                                       @Parameter(description = "캡션") @RequestParam(value = "caption", required = false) String caption) {
         try {
-            return ApiResponse.ok(questService.verifyAndComplete(userId, questId, image));
+            return ApiResponse.ok(questService.verifyAndComplete(userId, questId, image, caption));
         } catch (Exception e) {
             return ApiResponse.error(e.getMessage());
         }

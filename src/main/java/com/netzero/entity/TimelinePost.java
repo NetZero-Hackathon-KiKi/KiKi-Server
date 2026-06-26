@@ -19,6 +19,7 @@ public class TimelinePost {
 
     private String questTitle;
     private String imageUrl;
+    private String caption;
 
     @Builder.Default
     private int likeCount = 0;
