@@ -65,7 +65,7 @@ public class GroupService {
 
         AtomicInteger rank = new AtomicInteger(1);
         return group.getMembers().stream()
-                .sorted(Comparator.comparingInt(User::getGreenPoint).reversed())
+                .sorted(Comparator.comparingInt(User::getCurrentXp).reversed())
                 .map(member -> GroupMemberRankResponse.builder()
                         .rank(rank.getAndIncrement())
                         .userId(member.getId())
@@ -199,17 +199,15 @@ public class GroupService {
 
     private TimelinePostResponse toTimelinePostResponse(TimelinePost post, Long userId) {
         return TimelinePostResponse.builder()
-                .postId(post.getId())
-                .authorNickname(post.getAuthor().getNickname())
-                .authorProfileImageUrl(post.getAuthor().getProfileImageUrl())
-                .content(post.getContent())
-                .imageUrl(post.getImageUrl())
-                .verificationType(post.getVerificationType() != null ? post.getVerificationType().name() : null)
-                .verificationInfo(post.getVerificationInfo())
-                .likeCount(post.getLikeCount())
-                .commentCount(post.getCommentCount())
-                .likedByMe(timelineLikeRepository.existsByPostIdAndUserId(post.getId(), userId))
-                .createdAt(post.getCreatedAt())
-                .build();
+            .postId(post.getId())
+            .authorNickname(post.getAuthor().getNickname())
+            .authorProfileImageUrl(post.getAuthor().getProfileImageUrl())
+            .content(post.getContent())
+            .imageUrl(post.getImageUrl())
+            .likeCount(post.getLikeCount())
+            .commentCount(post.getCommentCount())
+            .likedByMe(timelineLikeRepository.existsByPostIdAndUserId(post.getId(), userId))
+            .createdAt(post.getCreatedAt())
+            .build();
     }
 }

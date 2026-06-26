@@ -26,7 +26,7 @@ public class RankingService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
-        Page<User> rankPage = userRepository.findByUniversityOrderByGreenPointDesc(
+        Page<User> rankPage = userRepository.findByUniversityOrderByCurrentXpDesc(
                 user.getUniversity(), PageRequest.of(page, size));
 
         int startRank = page * size + 1;
@@ -49,7 +49,7 @@ public class RankingService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
-        Page<User> rankPage = userRepository.findByUniversityAndDepartmentOrderByGreenPointDesc(
+        Page<User> rankPage = userRepository.findByUniversityAndDepartmentOrderByCurrentXpDesc(
                 user.getUniversity(), user.getDepartment(), PageRequest.of(page, size));
 
         int startRank = page * size + 1;
@@ -72,11 +72,11 @@ public class RankingService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
-        List<User> universityUsers = userRepository.findByUniversityOrderByGreenPointDesc(
+        List<User> universityUsers = userRepository.findByUniversityOrderByCurrentXpDesc(
                 user.getUniversity(), PageRequest.of(0, Integer.MAX_VALUE)).getContent();
         int universityRank = findRankInList(universityUsers, userId);
 
-        List<User> departmentUsers = userRepository.findByUniversityAndDepartmentOrderByGreenPointDesc(
+        List<User> departmentUsers = userRepository.findByUniversityAndDepartmentOrderByCurrentXpDesc(
                 user.getUniversity(), user.getDepartment(), PageRequest.of(0, Integer.MAX_VALUE)).getContent();
         int departmentRank = findRankInList(departmentUsers, userId);
 
@@ -105,14 +105,14 @@ public class RankingService {
     }
 
     private RankEntryResponse findMyRanking(User user) {
-        List<User> allUsers = userRepository.findByUniversityOrderByGreenPointDesc(
+        List<User> allUsers = userRepository.findByUniversityOrderByCurrentXpDesc(
                 user.getUniversity(), PageRequest.of(0, Integer.MAX_VALUE)).getContent();
         int rank = findRankInList(allUsers, user.getId());
         return toRankEntry(user, rank);
     }
 
     private RankEntryResponse findMyDepartmentRanking(User user) {
-        List<User> deptUsers = userRepository.findByUniversityAndDepartmentOrderByGreenPointDesc(
+        List<User> deptUsers = userRepository.findByUniversityAndDepartmentOrderByCurrentXpDesc(
                 user.getUniversity(), user.getDepartment(), PageRequest.of(0, Integer.MAX_VALUE)).getContent();
         int rank = findRankInList(deptUsers, user.getId());
         return toRankEntry(user, rank);
