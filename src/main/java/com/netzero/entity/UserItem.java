@@ -7,26 +7,19 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "user_items")
 @Getter @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor @AllArgsConstructor @Builder
 public class UserItem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id", nullable = false)
+    @JoinColumn(name = "item_id")
     private ShopItem item;
 
-    @Builder.Default
-    private boolean equipped = false;
-
-    @Builder.Default
-    private LocalDateTime purchasedAt = LocalDateTime.now();
+    private LocalDateTime purchasedAt;
 }

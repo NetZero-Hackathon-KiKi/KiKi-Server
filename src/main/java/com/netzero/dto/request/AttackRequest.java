@@ -1,18 +1,11 @@
 package com.netzero.dto.request;
 
-import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import java.util.List;
 
 @Getter @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class AttackRequest {
-
-    @NotNull
-    private Long targetUserId;
-
-    @NotNull
+    private List<Long> targetIds;
     private Long questId;
-
-    private int gpAtStake;
 }

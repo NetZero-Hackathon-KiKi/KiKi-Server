@@ -7,27 +7,18 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "timeline_posts")
 @Getter @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor @AllArgsConstructor @Builder
 public class TimelinePost {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User author;
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    private String content;
-
+    private String questTitle;
     private String imageUrl;
-
-    @Enumerated(EnumType.STRING)
-    private VerificationType verificationType;
-
-    private String verificationInfo;
 
     @Builder.Default
     private int likeCount = 0;
@@ -35,10 +26,5 @@ public class TimelinePost {
     @Builder.Default
     private int commentCount = 0;
 
-    @Builder.Default
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    public enum VerificationType {
-        QUEST, ATTACK
-    }
+    private LocalDateTime createdAt;
 }
