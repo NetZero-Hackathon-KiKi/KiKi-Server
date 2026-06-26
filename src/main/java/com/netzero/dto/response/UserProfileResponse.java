@@ -17,6 +17,5 @@ public class UserProfileResponse {
     private int currentXp;
     private int maxXp;
     private int greenPoint;
-    private int friendCount;
     private String profileImageUrl;
 }

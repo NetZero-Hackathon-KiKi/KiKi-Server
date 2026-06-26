@@ -112,17 +112,14 @@ public class AttackService {
         attackRepository.save(attack);
 
         User defender = attack.getDefender();
-        if (defender.getGroup() != null) {
-            TimelinePost post = TimelinePost.builder()
-                    .author(defender)
-                    .group(defender.getGroup())
-                    .content(content)
-                    .imageUrl(imageUrl)
-                    .verificationType(TimelinePost.VerificationType.ATTACK)
-                    .verificationInfo("attack:" + attackId)
-                    .build();
-            timelinePostRepository.save(post);
-        }
+        TimelinePost post = TimelinePost.builder()
+                .author(defender)
+                .content(content)
+                .imageUrl(imageUrl)
+                .verificationType(TimelinePost.VerificationType.ATTACK)
+                .verificationInfo("attack:" + attackId)
+                .build();
+        timelinePostRepository.save(post);
 
         return Map.of(
                 "attackId", attackId,
@@ -192,22 +189,15 @@ public class AttackService {
 
     @Transactional(readOnly = true)
     public List<AttackTargetResponse> getAttackTargets(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-
-        if (user.getGroup() == null) {
-            throw new IllegalStateException("그룹에 소속되어야 공격할 수 있습니다.");
-        }
-
-        return user.getGroup().getMembers().stream()
-                .filter(m -> !m.getId().equals(userId))
+        return userRepository.findAll().stream()
+                .filter(u -> !u.getId().equals(userId))
                 .sorted(Comparator.comparingInt(User::getGreenPoint).reversed())
-                .map(m -> AttackTargetResponse.builder()
-                        .userId(m.getId())
-                        .nickname(m.getNickname())
-                        .profileImageUrl(m.getProfileImageUrl())
-                        .greenPoint(m.getGreenPoint())
-                        .level(m.getLevel())
+                .map(u -> AttackTargetResponse.builder()
+                        .userId(u.getId())
+                        .nickname(u.getNickname())
+                        .profileImageUrl(u.getProfileImageUrl())
+                        .greenPoint(u.getGreenPoint())
+                        .level(u.getLevel())
                         .build())
                 .collect(Collectors.toList());
     }

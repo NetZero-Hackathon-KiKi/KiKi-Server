@@ -4,7 +4,6 @@ import com.netzero.dto.request.UpdateNicknameRequest;
 import com.netzero.dto.request.UpdateNotificationRequest;
 import com.netzero.dto.response.*;
 import com.netzero.entity.User;
-import com.netzero.repository.FriendshipRepository;
 import com.netzero.repository.NotificationRepository;
 import com.netzero.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final FriendshipRepository friendshipRepository;
     private final NotificationRepository notificationRepository;
     private final QuestService questService;
     private final AttackService attackService;
@@ -30,7 +28,6 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserProfileResponse getMyProfile(Long userId) {
         User user = getUser(userId);
-        int friendCount = friendshipRepository.countFriends(userId);
 
         return UserProfileResponse.builder()
                 .id(user.getId())
@@ -42,7 +39,6 @@ public class UserService {
                 .currentXp(user.getCurrentXp())
                 .maxXp(user.getMaxXp())
                 .greenPoint(user.getGreenPoint())
-                .friendCount(friendCount)
                 .profileImageUrl(user.getProfileImageUrl())
                 .build();
     }

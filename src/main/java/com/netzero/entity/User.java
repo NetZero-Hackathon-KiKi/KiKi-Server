@@ -52,10 +52,6 @@ public class User {
     @Builder.Default
     private boolean verificationNotification = true;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
-
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 }

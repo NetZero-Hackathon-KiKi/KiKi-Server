@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TimelinePostRepository extends JpaRepository<TimelinePost, Long> {
 
-    Page<TimelinePost> findByGroupIdOrderByCreatedAtDesc(Long groupId, Pageable pageable);
+    Page<TimelinePost> findAllByOrderByCreatedAtDesc(Pageable pageable);
 }

@@ -109,17 +109,14 @@ public class QuestService {
 
         userQuestRepository.save(userQuest);
 
-        if (user.getGroup() != null) {
-            TimelinePost post = TimelinePost.builder()
-                    .author(user)
-                    .group(user.getGroup())
-                    .content(content)
-                    .imageUrl(verificationImageUrl)
-                    .verificationType(TimelinePost.VerificationType.QUEST)
-                    .verificationInfo("quest:" + questId)
-                    .build();
-            timelinePostRepository.save(post);
-        }
+        TimelinePost post = TimelinePost.builder()
+                .author(user)
+                .content(content)
+                .imageUrl(verificationImageUrl)
+                .verificationType(TimelinePost.VerificationType.QUEST)
+                .verificationInfo("quest:" + questId)
+                .build();
+        timelinePostRepository.save(post);
 
         return Map.of(
                 "questId", questId,
