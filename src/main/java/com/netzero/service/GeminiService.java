@@ -2,6 +2,7 @@ package com.netzero.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -10,6 +11,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class GeminiService {
 
@@ -30,23 +32,21 @@ public class GeminiService {
         String base64Image = Base64.getEncoder().encodeToString(imageBytes);
 
         String prompt = String.join("\n",
-                "You are a strict mission verification judge.",
+                "You are a mission photo verification system.",
                 "",
-                "Mission title: \"" + questTitle + "\"",
-                "Mission description: \"" + questDescription + "\"",
+                "Mission: \"" + questTitle + "\"",
+                "Description: \"" + questDescription + "\"",
                 "",
-                "Analyze the uploaded photo and determine whether it is valid proof of completing the above mission.",
+                "Look at the photo. Does it show reasonable evidence of this mission?",
+                "Be lenient - if the photo is somewhat related to the mission topic, accept it.",
                 "",
-                "Rules:",
-                "- The photo MUST clearly show evidence directly related to the mission.",
-                "- If the mission is about using a tumbler, the photo must show a tumbler actually being used.",
-                "- If the mission is about riding a bicycle, the photo must show a bicycle being ridden or parked after riding.",
-                "- If the mission is about picking up trash, the photo must show collected trash or the act of picking it up.",
-                "- If the mission is about turning off lights, the photo must show lights turned off or a dark room.",
-                "- Random, irrelevant, or unrelated photos must be rejected.",
-                "- Photos that could apply to any mission (e.g. a selfie, a blank wall, a random object) must be rejected.",
+                "Examples:",
+                "- Mission about tumbler/reusable cup: photo shows any tumbler, reusable cup, or thermos → TRUE",
+                "- Mission about bicycle: photo shows any bicycle → TRUE",
+                "- Mission about trash/cleanup: photo shows trash bags or picking up litter → TRUE",
+                "- Completely unrelated photo (e.g. a cat photo for a tumbler mission) → FALSE",
                 "",
-                "Respond with ONLY one word: TRUE if the photo is valid proof, FALSE if not."
+                "Answer ONLY: TRUE or FALSE"
         );
 
         Map<String, Object> body = Map.of(
@@ -66,6 +66,8 @@ public class GeminiService {
         );
 
         try {
+            log.info("[Gemini] 미션 인증 요청 - 미션: {}, 이미지크기: {}bytes", questTitle, imageBytes.length);
+
             String response = webClient.post()
                     .uri("/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey)
                     .bodyValue(body)
@@ -73,24 +75,40 @@ public class GeminiService {
                     .bodyToMono(String.class)
                     .block();
 
-            return parseResult(response);
+            log.info("[Gemini] API 응답: {}", response);
+
+            boolean result = parseResult(response);
+            log.info("[Gemini] 판정 결과: {}", result ? "SUCCESS" : "FAILED");
+            return result;
         } catch (Exception e) {
+            log.error("[Gemini] API 호출 실패: {}", e.getMessage(), e);
             return false;
         }
     }
 
     private boolean parseResult(String response) {
-        if (response == null) return false;
+        if (response == null) {
+            log.warn("[Gemini] 응답이 null");
+            return false;
+        }
         try {
             JsonNode root = objectMapper.readTree(response);
             JsonNode parts = root.path("candidates").path(0)
                     .path("content").path("parts");
+
+            if (parts.isMissingNode() || parts.isEmpty()) {
+                log.warn("[Gemini] 응답에 candidates/parts 없음: {}", response);
+                return false;
+            }
+
             for (JsonNode part : parts) {
                 String text = part.path("text").asText().trim().toUpperCase();
+                log.info("[Gemini] 응답 텍스트: '{}'", text);
                 if (text.contains("TRUE")) return true;
             }
             return false;
         } catch (Exception e) {
+            log.error("[Gemini] 응답 파싱 실패: {}", e.getMessage());
             return false;
         }
     }
