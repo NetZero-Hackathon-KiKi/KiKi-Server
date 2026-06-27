@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ClaudeCodeEditorTabs">
-    <option name="activeSessionId" value="e564da62-2d75-49d1-9ea1-ae0e10368439" />
+    <option name="activeSessionId" value="218f1922-3e0f-4176-985c-921d6422b2d4" />
     <option name="openSessionIds">
       <list>
         <option value="0c0ce23c-d92f-4076-8b7b-a7c86e48774f" />
@@ -16,14 +16,14 @@
         <option value="b16082dd-30bd-4cd4-b0a2-741bc1456b6d" />
         <option value="a1f0172d-4022-4688-9655-534805ee8695" />
         <option value="981b1277-157f-4e43-8cc6-0c24995f3718" />
-        <option value="4655c333-0734-48bb-80dd-5fd90e536f4f" />
         <option value="e564da62-2d75-49d1-9ea1-ae0e10368439" />
+        <option value="218f1922-3e0f-4176-985c-921d6422b2d4" />
       </list>
     </option>
     <option name="sessionPaths">
       <map>
         <entry key="0c0ce23c-d92f-4076-8b7b-a7c86e48774f" value="/sessions/da83b784-5db2-4772-bfbd-77bf69c6b512" />
-        <entry key="4655c333-0734-48bb-80dd-5fd90e536f4f" value="/sessions/64138fa6-7fb7-43cc-9328-5da03b9c8679" />
+        <entry key="218f1922-3e0f-4176-985c-921d6422b2d4" value="/sessions/42d67261-e6fb-4af0-9ac8-dc6c3b235d80" />
         <entry key="56ce0187-d5e0-4ed5-af5f-bb4a9fa3451f" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
         <entry key="96bb4af7-4df0-45bf-a139-1b4431dac0a3" value="/sessions/e5eaa4b7-d749-40bc-b9c7-9e6d6458e36b" />
         <entry key="981b1277-157f-4e43-8cc6-0c24995f3718" value="/sessions/782bb731-67ea-4485-adb2-951e1fa17190" />
@@ -41,7 +41,7 @@
     <option name="sessionTitles">
       <map>
         <entry key="0c0ce23c-d92f-4076-8b7b-a7c86e48774f" value="이 와이어프레임에 대해 필요한 api 만들어줘" />
-        <entry key="4655c333-0734-48bb-80dd-5fd90e536f4f" value="/Library/Java/JavaVirtualMachines/jdk-21.jdk/Conte" />
+        <entry key="218f1922-3e0f-4176-985c-921d6422b2d4" value="아니 프롬프트가 계속 말을 안듣는다고 프롬프트 제대로 적어주고 만약에 실패이면 왜 이게 안" />
         <entry key="56ce0187-d5e0-4ed5-af5f-bb4a9fa3451f" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />
         <entry key="96bb4af7-4df0-45bf-a139-1b4431dac0a3" value="지금 database-1에 데이터 넣으려고 하는데 안돼 왜 이런거야" />
         <entry key="981b1277-157f-4e43-8cc6-0c24995f3718" value="netzero_db는 RDS꺼고 netzero가 로컬아니야?" />

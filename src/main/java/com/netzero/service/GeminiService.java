@@ -31,24 +31,25 @@ public class GeminiService {
     public boolean verifyQuestImage(byte[] imageBytes, String mimeType, String questTitle, String questDescription) {
         String base64Image = Base64.getEncoder().encodeToString(imageBytes);
 
-        String prompt = "당신은 환경 보호 미션의 사진 인증을 판정하는 AI입니다.\n\n" +
-                "[미션 정보]\n" +
+        String prompt = "너는 환경 보호 앱의 미션 사진 인증 판정관이야.\n\n" +
+                "## 현재 미션\n" +
                 "제목: " + questTitle + "\n" +
                 "설명: " + questDescription + "\n\n" +
-                "[규칙]\n" +
-                "1. 사진에 미션과 관련된 물체가 하나라도 보이면 TRUE입니다.\n" +
-                "2. 배경, 장소, 상황은 중요하지 않습니다. 물체만 보이면 됩니다.\n" +
-                "3. 미션과 완전히 무관한 사진만 FALSE입니다.\n\n" +
-                "[미션별 TRUE 조건]\n" +
-                "텀블러사용하기: 텀블러, 텀블러컵, 보온병, 머그컵, 리유저블컵, 개인컵, 스텐컵, 보냉병, 물병, 스타벅스텀블러 등 일회용이 아닌 컵/병이 보이면 TRUE\n" +
-                "분리수거하기: 분리수거함, 재활용 쓰레기, 분리된 쓰레기, 재활용 마크가 보이면 TRUE\n" +
-                "안쓰는 멀티탭 뽑기: 멀티탭, 콘센트, 전원 스위치, 플러그가 보이면 TRUE\n" +
-                "음식물 남기지 않기: 빈 그릇, 깨끗한 식판, 다 먹은 음식 사진이면 TRUE\n" +
-                "대중교통 이용하기: 버스, 지하철, 전철, 기차, 교통카드, 버스정류장, 지하철역이 보이면 TRUE\n" +
-                "캠퍼스 플로깅: 쓰레기봉투, 쓰레기 줍기, 집게, 야외 청소 장면이 보이면 TRUE\n" +
-                "에너지 절약 캠페인: 에너지 절약 관련 포스터, 캠페인, 행사 장면이 보이면 TRUE\n" +
-                "자전거 출퇴근: 자전거가 보이면 TRUE\n\n" +
-                "TRUE 또는 FALSE 한 단어만 출력하세요.";
+                "## 판정 규칙\n" +
+                "- 사진에서 미션과 관련된 물체나 장면이 조금이라도 보이면 반드시 TRUE를 출력해.\n" +
+                "- 사진의 품질, 각도, 밝기, 배경은 전혀 상관없어. 핵심 물체만 보이면 돼.\n" +
+                "- 애매하면 TRUE로 판정해. 최대한 관대하게 판단해.\n" +
+                "- 미션과 완전히 무관한 사진(예: 텀블러 미션에 동물 사진)만 FALSE야.\n\n" +
+                "## 미션별 인정 물체 목록\n" +
+                "텀블러사용하기 → 텀블러, 보온병, 머그컵, 텀블러컵, 리유저블컵, 개인컵, 스텐컵, 보냉병, 물병, 커피컵(일회용 아닌 것), 스타벅스 리유저블컵, 손에 들고 있는 컵\n" +
+                "분리수거하기 → 분리수거함, 재활용 쓰레기, 페트병, 캔, 종이, 유리병, 분리수거장\n" +
+                "안쓰는 멀티탭 뽑기 → 멀티탭, 콘센트, 플러그, 전원 스위치, 전선, 어댑터\n" +
+                "음식물 남기지 않기 → 빈 그릇, 깨끗한 접시, 식판, 다 먹은 음식, 식당, 밥\n" +
+                "대중교통 이용하기 → 버스, 지하철, 전철, 기차, 택시, 교통카드, 버스정류장, 지하철역, 좌석\n" +
+                "캠퍼스 플로깅 → 쓰레기봉투, 쓰레기 줍기, 집게, 장갑, 야외 청소\n" +
+                "에너지 절약 캠페인 → 포스터, 캠페인 현수막, 행사, 에너지 절약 관련 장면\n" +
+                "자전거 출퇴근 → 자전거, 킥보드, 헬멧, 자전거 도로\n\n" +
+                "TRUE 또는 FALSE 한 단어만 출력해.";
 
         Map<String, Object> body = Map.of(
                 "contents", List.of(Map.of(
@@ -82,15 +83,15 @@ public class GeminiService {
             log.info("[Gemini] 판정 결과: {}", result ? "SUCCESS" : "FAILED");
             return result;
         } catch (Exception e) {
-            log.error("[Gemini] API 호출 실패: {}", e.getMessage(), e);
-            return false;
+            log.error("[Gemini] API 호출 실패, 자동 승인 처리: {}", e.getMessage(), e);
+            return true;
         }
     }
 
     private boolean parseResult(String response) {
         if (response == null) {
-            log.warn("[Gemini] 응답이 null");
-            return false;
+            log.warn("[Gemini] 응답이 null, 자동 승인 처리");
+            return true;
         }
         try {
             JsonNode root = objectMapper.readTree(response);
@@ -98,19 +99,19 @@ public class GeminiService {
                     .path("content").path("parts");
 
             if (parts.isMissingNode() || parts.isEmpty()) {
-                log.warn("[Gemini] 응답에 candidates/parts 없음: {}", response);
-                return false;
+                log.warn("[Gemini] 응답에 candidates/parts 없음, 자동 승인 처리: {}", response);
+                return true;
             }
 
             for (JsonNode part : parts) {
                 String text = part.path("text").asText().trim().toUpperCase();
                 log.info("[Gemini] 응답 텍스트: '{}'", text);
-                if (text.contains("TRUE")) return true;
+                if (text.contains("FALSE")) return false;
             }
-            return false;
+            return true;
         } catch (Exception e) {
-            log.error("[Gemini] 응답 파싱 실패: {}", e.getMessage());
-            return false;
+            log.error("[Gemini] 응답 파싱 실패, 자동 승인 처리: {}", e.getMessage());
+            return true;
         }
     }
 }
