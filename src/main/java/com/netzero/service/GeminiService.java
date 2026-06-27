@@ -55,8 +55,8 @@ public class GeminiService {
                 "contents", List.of(Map.of(
                         "parts", List.of(
                                 Map.of("text", prompt),
-                                Map.of("inline_data", Map.of(
-                                        "mime_type", mimeType != null ? mimeType : "image/jpeg",
+                                Map.of("inlineData", Map.of(
+                                        "mimeType", mimeType != null ? mimeType : "image/jpeg",
                                         "data", base64Image
                                 ))
                         )
