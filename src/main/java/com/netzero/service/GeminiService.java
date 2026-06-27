@@ -31,28 +31,24 @@ public class GeminiService {
     public boolean verifyQuestImage(byte[] imageBytes, String mimeType, String questTitle, String questDescription) {
         String base64Image = Base64.getEncoder().encodeToString(imageBytes);
 
-        String prompt = String.join("\n",
-                "당신은 환경 미션 사진 인증 시스템입니다.",
-                "",
-                "미션 제목: \"" + questTitle + "\"",
-                "미션 설명: \"" + questDescription + "\"",
-                "",
-                "사진을 보고, 이 미션과 관련된 사진인지 판단하세요.",
-                "관대하게 판단하세요 - 미션 주제와 조금이라도 관련이 있으면 TRUE로 판단합니다.",
-                "미션의 핵심 물건이 사진에 보이면 무조건 TRUE입니다.",
-                "",
-                "판단 기준:",
-                "- '텀블러사용하기' 미션: 텀블러, 보온병, 리유저블컵, 머그컵, 개인컵이 사진에 보이면 → TRUE",
-                "- '분리수거하기' 미션: 분리수거함, 재활용 쓰레기, 분리된 쓰레기가 보이면 → TRUE",
-                "- '안쓰는 멀티탭 뽑기' 미션: 멀티탭, 콘센트, 전원 관련 사진이면 → TRUE",
-                "- '음식물 남기지 않기' 미션: 깨끗한 식판, 빈 그릇, 식사 관련 사진이면 → TRUE",
-                "- '대중교통 이용하기' 미션: 버스, 지하철, 교통카드 관련 사진이면 → TRUE",
-                "- '캠퍼스 플로깅' 미션: 쓰레기 줍기, 쓰레기봉투, 야외 청소 사진이면 → TRUE",
-                "- '자전거 출퇴근' 미션: 자전거가 보이면 → TRUE",
-                "- 미션과 전혀 관련 없는 사진 (예: 텀블러 미션에 고양이 사진) → FALSE",
-                "",
-                "반드시 TRUE 또는 FALSE 중 하나만 답하세요."
-        );
+        String prompt = "당신은 환경 보호 미션의 사진 인증을 판정하는 AI입니다.\n\n" +
+                "[미션 정보]\n" +
+                "제목: " + questTitle + "\n" +
+                "설명: " + questDescription + "\n\n" +
+                "[규칙]\n" +
+                "1. 사진에 미션과 관련된 물체가 하나라도 보이면 TRUE입니다.\n" +
+                "2. 배경, 장소, 상황은 중요하지 않습니다. 물체만 보이면 됩니다.\n" +
+                "3. 미션과 완전히 무관한 사진만 FALSE입니다.\n\n" +
+                "[미션별 TRUE 조건]\n" +
+                "텀블러사용하기: 텀블러, 텀블러컵, 보온병, 머그컵, 리유저블컵, 개인컵, 스텐컵, 보냉병, 물병, 스타벅스텀블러 등 일회용이 아닌 컵/병이 보이면 TRUE\n" +
+                "분리수거하기: 분리수거함, 재활용 쓰레기, 분리된 쓰레기, 재활용 마크가 보이면 TRUE\n" +
+                "안쓰는 멀티탭 뽑기: 멀티탭, 콘센트, 전원 스위치, 플러그가 보이면 TRUE\n" +
+                "음식물 남기지 않기: 빈 그릇, 깨끗한 식판, 다 먹은 음식 사진이면 TRUE\n" +
+                "대중교통 이용하기: 버스, 지하철, 전철, 기차, 교통카드, 버스정류장, 지하철역이 보이면 TRUE\n" +
+                "캠퍼스 플로깅: 쓰레기봉투, 쓰레기 줍기, 집게, 야외 청소 장면이 보이면 TRUE\n" +
+                "에너지 절약 캠페인: 에너지 절약 관련 포스터, 캠페인, 행사 장면이 보이면 TRUE\n" +
+                "자전거 출퇴근: 자전거가 보이면 TRUE\n\n" +
+                "TRUE 또는 FALSE 한 단어만 출력하세요.";
 
         Map<String, Object> body = Map.of(
                 "contents", List.of(Map.of(
@@ -74,7 +70,7 @@ public class GeminiService {
             log.info("[Gemini] 미션 인증 요청 - 미션: {}, 이미지크기: {}bytes", questTitle, imageBytes.length);
 
             String response = webClient.post()
-                    .uri("/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey)
+                    .uri("/v1beta/models/gemini-2.5-flash:generateContent?key=" + apiKey)
                     .bodyValue(body)
                     .retrieve()
                     .bodyToMono(String.class)
