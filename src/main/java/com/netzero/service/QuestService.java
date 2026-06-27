@@ -58,7 +58,7 @@ public class QuestService {
 
         String imageUrl = s3Service.upload(image);
 
-        boolean verified = geminiService.verifyQuestImage(image.getBytes(), image.getContentType(), quest.getDescription());
+        boolean verified = geminiService.verifyQuestImage(image.getBytes(), image.getContentType(), quest.getTitle(), quest.getDescription());
 
         String status = verified ? "SUCCESS" : "FAILED";
 

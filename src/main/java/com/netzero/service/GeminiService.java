@@ -1,7 +1,5 @@
 package com.netzero.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,7 +12,6 @@ import java.util.Map;
 public class GeminiService {
 
     private final WebClient webClient;
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Value("${gemini.api-key}")
     private String apiKey;
@@ -26,27 +23,13 @@ public class GeminiService {
                 .build();
     }
 
-    public boolean verifyQuestImage(byte[] imageBytes, String mimeType, String questDescription) {
+    public boolean verifyQuestImage(byte[] imageBytes, String mimeType, String questTitle, String questDescription) {
         String base64Image = Base64.getEncoder().encodeToString(imageBytes);
 
-        String prompt = "You are a strict photo verification judge.\n\n" +
-                "MISSION: \"" + questDescription + "\"\n\n" +
-                "RULES:\n" +
-                "1. The photo MUST clearly show the key object or action directly related to the mission.\n" +
-                "2. Return ONLY the word PASS or FAIL. No other text.\n\n" +
-                "FAIL examples (return FAIL for these):\n" +
-                "- Floor, ceiling, wall, sky, random scenery\n" +
-                "- Selfie without mission-related object\n" +
-                "- Blurry or unrecognizable photo\n" +
-                "- Food, desk, computer (unless mission-related)\n" +
-                "- Any photo where the mission object is NOT visible\n\n" +
-                "PASS examples (return PASS only for these):\n" +
-                "- Mission is 'use tumbler' → tumbler/reusable cup clearly visible\n" +
-                "- Mission is 'recycle' → recycling bin with items clearly visible\n" +
-                "- Mission is 'use public transport' → inside bus/subway clearly visible\n" +
-                "- Mission is 'use bicycle' → bicycle clearly visible\n\n" +
-                "When in doubt, return FAIL.\n" +
-                "Answer with PASS or FAIL only:";
+        String prompt = "이 사진이 \"" + questTitle + "\" 미션의 인증 사진으로 적합한지 판단해.\n" +
+                "미션 설명: " + questDescription + "\n" +
+                "사진에 미션과 관련된 물체나 행동이 보이면 TRUE, 아니면 FALSE.\n" +
+                "TRUE 또는 FALSE만 답해.";
 
         Map<String, Object> body = Map.of(
                 "contents", List.of(Map.of(
@@ -71,19 +54,6 @@ public class GeminiService {
                 .bodyToMono(String.class)
                 .block();
 
-        return extractResult(response);
-    }
-
-    private boolean extractResult(String response) {
-        if (response == null) return false;
-        try {
-            JsonNode root = objectMapper.readTree(response);
-            String text = root.path("candidates").path(0)
-                    .path("content").path("parts").path(0)
-                    .path("text").asText().trim().toUpperCase();
-            return text.contains("PASS");
-        } catch (Exception e) {
-            return false;
-        }
+        return response != null && response.toUpperCase().contains("TRUE");
     }
 }
