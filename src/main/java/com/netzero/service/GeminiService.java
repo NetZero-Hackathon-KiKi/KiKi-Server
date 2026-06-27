@@ -1,5 +1,7 @@
 package com.netzero.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -12,6 +14,7 @@ import java.util.Map;
 public class GeminiService {
 
     private final WebClient webClient;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Value("${gemini.api-key}")
     private String apiKey;
@@ -26,10 +29,13 @@ public class GeminiService {
     public boolean verifyQuestImage(byte[] imageBytes, String mimeType, String questTitle, String questDescription) {
         String base64Image = Base64.getEncoder().encodeToString(imageBytes);
 
-        String prompt = "이 사진이 \"" + questTitle + "\" 미션의 인증 사진으로 적합한지 판단해.\n" +
-                "미션 설명: " + questDescription + "\n" +
-                "사진에 미션과 관련된 물체나 행동이 보이면 TRUE, 아니면 FALSE.\n" +
-                "TRUE 또는 FALSE만 답해.";
+        String prompt = "사진이 \"" + questTitle + "\" 미션 인증으로 적합한지 판단해.\n" +
+                "미션 설명: " + questDescription + "\n\n" +
+                "규칙:\n" +
+                "- 사진에 미션의 핵심 물체나 행동이 보이면 TRUE\n" +
+                "- 바닥, 천장, 벽, 관련 없는 사물이면 FALSE\n" +
+                "- 애매하면 FALSE\n\n" +
+                "TRUE 또는 FALSE 한 단어만 답해.";
 
         Map<String, Object> body = Map.of(
                 "contents", List.of(Map.of(
@@ -48,12 +54,25 @@ public class GeminiService {
         );
 
         String response = webClient.post()
-                .uri("/v1beta/models/gemini-2.5-flash:generateContent?key=" + apiKey)
+                .uri("/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey)
                 .bodyValue(body)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
 
-        return response != null && response.toUpperCase().contains("TRUE");
+        return parseResult(response);
+    }
+
+    private boolean parseResult(String response) {
+        if (response == null) return false;
+        try {
+            JsonNode root = objectMapper.readTree(response);
+            String text = root.path("candidates").path(0)
+                    .path("content").path("parts").path(0)
+                    .path("text").asText().trim().toUpperCase();
+            return text.contains("TRUE");
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
