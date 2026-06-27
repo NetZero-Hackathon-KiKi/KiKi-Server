@@ -38,12 +38,17 @@ INSERT IGNORE INTO attacks (id, attacker_id, target_id, quest_id, completed, dea
 (3, 1, 2, 3, true, DATE_ADD(NOW(), INTERVAL 24 HOUR), DATE_SUB(NOW(), INTERVAL 2 HOUR));
 
 -- Timeline Posts (퀘스트 인증 성공 게시글)
-INSERT IGNORE INTO timeline_posts (id, user_id, quest_title, image_url, like_count, comment_count, created_at) VALUES
-(1, 1, '텀블러사용하기', NULL, 12, 3, DATE_SUB(NOW(), INTERVAL 1 HOUR)),
-(2, 3, '음식물 남기지 않기', NULL, 8, 2, DATE_SUB(NOW(), INTERVAL 2 HOUR)),
-(3, 2, '분리수거하기', NULL, 5, 1, DATE_SUB(NOW(), INTERVAL 3 HOUR)),
-(4, 5, '안쓰는 멀티탭 뽑기', NULL, 3, 0, DATE_SUB(NOW(), INTERVAL 4 HOUR)),
-(5, 6, '대중교통 이용하기', NULL, 7, 2, DATE_SUB(NOW(), INTERVAL 5 HOUR));
+INSERT IGNORE INTO timeline_posts (id, user_id, quest_title, image_url, caption, like_count, comment_count, created_at) VALUES
+(1, 1, '텀블러사용하기', 'https://netzero-08-quest-images.s3.us-east-1.amazonaws.com/quest-images/0b19aafa-d1a9-466c-8f93-cf40bd79bcf2_quest_photo.jpg', '오늘도 텀블러로 커피 한 잔!', 12, 3, DATE_SUB(NOW(), INTERVAL 1 HOUR)),
+(2, 3, '음식물 남기지 않기', 'https://netzero-08-quest-images.s3.us-east-1.amazonaws.com/quest-images/4ec50b55-32b9-48d9-97f5-c1e2835712eb_quest_photo.jpg', '잔반 제로 달성!', 8, 2, DATE_SUB(NOW(), INTERVAL 2 HOUR)),
+(3, 2, '분리수거하기', 'https://netzero-08-quest-images.s3.us-east-1.amazonaws.com/quest-images/623d98ae-aa00-4004-a648-bd5af701f25c_quest_photo.jpg', '올바른 분리수거 완료', 5, 1, DATE_SUB(NOW(), INTERVAL 3 HOUR)),
+(4, 5, '안쓰는 멀티탭 뽑기', 'https://netzero-08-quest-images.s3.us-east-1.amazonaws.com/quest-images/65da0684-2ad8-488b-93e5-d601203ba402_quest_photo.jpg', '안 쓰는 멀티탭 정리!', 3, 0, DATE_SUB(NOW(), INTERVAL 4 HOUR)),
+(5, 6, '대중교통 이용하기', 'https://netzero-08-quest-images.s3.us-east-1.amazonaws.com/quest-images/718dcc81-0477-490f-81a0-3a9535bc29fa_quest_photo.jpg', '버스 타고 등교', 7, 2, DATE_SUB(NOW(), INTERVAL 5 HOUR)),
+(6, 4, '텀블러사용하기', 'https://netzero-08-quest-images.s3.us-east-1.amazonaws.com/quest-images/778ee71b-9b34-4ac8-8cc7-2e37e5405666_quest_photo.jpg', '텀블러 인증합니다', 15, 4, DATE_SUB(NOW(), INTERVAL 6 HOUR)),
+(7, 9, '캠퍼스 플로깅', 'https://netzero-08-quest-images.s3.us-east-1.amazonaws.com/quest-images/91afeb56-20cc-4556-a155-3499f7e50b17_quest_photo.jpg', '캠퍼스 깨끗하게!', 20, 5, DATE_SUB(NOW(), INTERVAL 7 HOUR)),
+(8, 10, '자전거 출퇴근', 'https://netzero-08-quest-images.s3.us-east-1.amazonaws.com/quest-images/a3d547a0-d6fa-4c0f-a768-d2a59bd4584e_quest_photo.jpg', '자전거로 등교 완료', 9, 2, DATE_SUB(NOW(), INTERVAL 8 HOUR)),
+(9, 1, '분리수거하기', 'https://netzero-08-quest-images.s3.us-east-1.amazonaws.com/quest-images/bd572827-38f5-4862-abbb-641f10c2a511_quest_photo.jpg', '분리수거 생활화', 6, 1, DATE_SUB(NOW(), INTERVAL 9 HOUR)),
+(10, 2, '대중교통 이용하기', 'https://netzero-08-quest-images.s3.us-east-1.amazonaws.com/quest-images/51c4396d-a8f3-4794-a0d0-4de9d244a54b_quest_photo.jpg', '지하철 출퇴근 인증', 11, 3, DATE_SUB(NOW(), INTERVAL 10 HOUR));
 
 -- User Items (구매한 아이템)
 INSERT IGNORE INTO user_items (id, user_id, item_id, purchased_at) VALUES
