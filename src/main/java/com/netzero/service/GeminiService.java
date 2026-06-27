@@ -32,21 +32,26 @@ public class GeminiService {
         String base64Image = Base64.getEncoder().encodeToString(imageBytes);
 
         String prompt = String.join("\n",
-                "You are a mission photo verification system.",
+                "당신은 환경 미션 사진 인증 시스템입니다.",
                 "",
-                "Mission: \"" + questTitle + "\"",
-                "Description: \"" + questDescription + "\"",
+                "미션 제목: \"" + questTitle + "\"",
+                "미션 설명: \"" + questDescription + "\"",
                 "",
-                "Look at the photo. Does it show reasonable evidence of this mission?",
-                "Be lenient - if the photo is somewhat related to the mission topic, accept it.",
+                "사진을 보고, 이 미션과 관련된 사진인지 판단하세요.",
+                "관대하게 판단하세요 - 미션 주제와 조금이라도 관련이 있으면 TRUE로 판단합니다.",
+                "미션의 핵심 물건이 사진에 보이면 무조건 TRUE입니다.",
                 "",
-                "Examples:",
-                "- Mission about tumbler/reusable cup: photo shows any tumbler, reusable cup, or thermos → TRUE",
-                "- Mission about bicycle: photo shows any bicycle → TRUE",
-                "- Mission about trash/cleanup: photo shows trash bags or picking up litter → TRUE",
-                "- Completely unrelated photo (e.g. a cat photo for a tumbler mission) → FALSE",
+                "판단 기준:",
+                "- '텀블러사용하기' 미션: 텀블러, 보온병, 리유저블컵, 머그컵, 개인컵이 사진에 보이면 → TRUE",
+                "- '분리수거하기' 미션: 분리수거함, 재활용 쓰레기, 분리된 쓰레기가 보이면 → TRUE",
+                "- '안쓰는 멀티탭 뽑기' 미션: 멀티탭, 콘센트, 전원 관련 사진이면 → TRUE",
+                "- '음식물 남기지 않기' 미션: 깨끗한 식판, 빈 그릇, 식사 관련 사진이면 → TRUE",
+                "- '대중교통 이용하기' 미션: 버스, 지하철, 교통카드 관련 사진이면 → TRUE",
+                "- '캠퍼스 플로깅' 미션: 쓰레기 줍기, 쓰레기봉투, 야외 청소 사진이면 → TRUE",
+                "- '자전거 출퇴근' 미션: 자전거가 보이면 → TRUE",
+                "- 미션과 전혀 관련 없는 사진 (예: 텀블러 미션에 고양이 사진) → FALSE",
                 "",
-                "Answer ONLY: TRUE or FALSE"
+                "반드시 TRUE 또는 FALSE 중 하나만 답하세요."
         );
 
         Map<String, Object> body = Map.of(
