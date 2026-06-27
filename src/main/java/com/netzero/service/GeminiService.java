@@ -29,13 +29,11 @@ public class GeminiService {
     public boolean verifyQuestImage(byte[] imageBytes, String mimeType, String questTitle, String questDescription) {
         String base64Image = Base64.getEncoder().encodeToString(imageBytes);
 
-        String prompt = "사진이 \"" + questTitle + "\" 미션 인증으로 적합한지 판단해.\n" +
-                "미션 설명: " + questDescription + "\n\n" +
-                "규칙:\n" +
-                "- 사진에 미션의 핵심 물체나 행동이 보이면 TRUE\n" +
-                "- 바닥, 천장, 벽, 관련 없는 사물이면 FALSE\n" +
-                "- 애매하면 FALSE\n\n" +
-                "TRUE 또는 FALSE 한 단어만 답해.";
+        String prompt = "미션: \"" + questTitle + "\"\n" +
+                "설명: " + questDescription + "\n\n" +
+                "이 사진이 위 미션과 관련이 있으면 TRUE, 전혀 관련 없으면 FALSE로 답해.\n" +
+                "관대하게 판단해. 조금이라도 관련 있으면 TRUE야.\n" +
+                "TRUE 또는 FALSE만 답해.";
 
         Map<String, Object> body = Map.of(
                 "contents", List.of(Map.of(
@@ -48,7 +46,7 @@ public class GeminiService {
                         )
                 )),
                 "generationConfig", Map.of(
-                        "maxOutputTokens", 10,
+                        "maxOutputTokens", 256,
                         "temperature", 0.1
                 )
         );
@@ -67,10 +65,14 @@ public class GeminiService {
         if (response == null) return false;
         try {
             JsonNode root = objectMapper.readTree(response);
-            String text = root.path("candidates").path(0)
-                    .path("content").path("parts").path(0)
-                    .path("text").asText().trim().toUpperCase();
-            return text.contains("TRUE");
+            JsonNode parts = root.path("candidates").path(0)
+                    .path("content").path("parts");
+            for (JsonNode part : parts) {
+                String text = part.path("text").asText().trim().toUpperCase();
+                if (text.contains("TRUE")) return true;
+                if (text.contains("FALSE")) return false;
+            }
+            return false;
         } catch (Exception e) {
             return false;
         }
